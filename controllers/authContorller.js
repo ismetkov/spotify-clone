@@ -63,7 +63,7 @@ exports.signUp = async (req, res) => {
   }
 }
 
-exports.signIn = async (req, res) => {
+exports.signIn = (req, res) => {
   // everything is okay - send token!
   const token = getToken(req.user.id)
 
