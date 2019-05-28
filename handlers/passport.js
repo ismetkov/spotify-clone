@@ -1,10 +1,15 @@
-const passport = require('passport')
-const bcrypt = require('bcrypt-nodejs')
-const JwtStrategy = require('passport-jwt').Strategy
-const ExtractJwt = require('passport-jwt').ExtractJwt
-const LocalStrategy = require('passport-local')
-const FacebookStrategy = require('passport-facebook').Strategy
-const db = require('../db')
+import passport from 'passport'
+import bcrypt from 'bcrypt-nodejs'
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
+import LocalStrategy from 'passport-local'
+import { Strategy as FacebookStrategy } from 'passport-facebook'
+import db from '../db'
+import {
+  SECRET_KEY,
+  FB_CLIENT_ID,
+  FB_CLIENT_SECRET,
+  FACEBOOK_AUTH_CALLBACK_URL
+} from 'babel-dotenv'
 
 // Create local strategy
 const localOptions = { usernameField: 'email' }
@@ -34,7 +39,7 @@ const localLogin = new LocalStrategy(localOptions, async function(
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-  secretOrKey: process.env.SECRET_KEY
+  secretOrKey: SECRET_KEY
 }
 
 // Create JWT strategy
@@ -58,9 +63,9 @@ const jwtLogin = new JwtStrategy(jwtOptions, async function(payload, done) {
 
 // facebook strategy
 const fbOptions = {
-  clientID: process.env.FB_CLIENT_ID,
-  clientSecret: process.env.FB_CLIENT_SECRET,
-  callbackURL: 'http://localhost:7777/api/auth/facebook/callback',
+  clientID: FB_CLIENT_ID,
+  clientSecret: FB_CLIENT_SECRET,
+  callbackURL: `${FACEBOOK_AUTH_CALLBACK_URL}/api/auth/facebook/callback`,
   profileFields: ['id', 'displayName', 'email']
 }
 

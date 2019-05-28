@@ -1,10 +1,11 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const expressValidator = require('express-validator')
-const routes = require('./routes')
+import express from 'express'
+import bodyParser from 'body-parser'
+import cors from 'cors'
+import expressValidator from 'express-validator'
+import routes from './routes'
+import errorHandlers from './handlers/errorHandlers'
 
-require('./handlers/passport')
+import './handlers/passport'
 
 const app = express()
 
@@ -14,6 +15,11 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(expressValidator())
+
 app.use('/', routes)
 
-module.exports = app
+app.use(errorHandlers.notFound)
+
+app.use(errorHandlers.serverError)
+
+export default app

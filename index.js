@@ -1,8 +1,7 @@
-require('dotenv').config({ path: 'variables.env' })
+import { PORT } from 'babel-dotenv'
+import app from './app'
 
-const app = require('./app')
-
-app.set('port', process.env.PORT || 7777)
+app.set('port', PORT || 7777)
 
 const server = app.listen(app.get('port'), () => {
   console.log(`Server running on: ${server.address().port}`)
