@@ -1,16 +1,21 @@
-const db = require('../db')
-const bcrypt = require('bcrypt-nodejs')
-const md5 = require('md5')
-const jwt = require('jsonwebtoken')
-const _ = require('lodash')
+import bcrypt from 'bcrypt-nodejs'
+import jwt from 'jsonwebtoken'
+import _ from 'lodash'
+import { randomBytes } from 'crypto'
+import { promisify } from 'util'
+import { SECRET_KEY, TOKEN_EXPIRY_TIME } from 'babel-dotenv'
+import { mailTransport, mailTemplate } from '../handlers/mail'
+import Auth from '../services/Auth'
+
+const randomBytesPromiseified = promisify(randomBytes)
 
 const getToken = userId => {
-  return jwt.sign({ sub: userId }, process.env.SECRET_KEY, {
+  return jwt.sign({ sub: userId }, SECRET_KEY, {
     expiresIn: '2 days'
   })
 }
 
-exports.validateSignup = (req, res, next) => {
+export const validateSignup = (req, res, next) => {
   req.sanitizeBody('username')
   req.checkBody('username', 'Username required').notEmpty()
   req.checkBody('email', 'Email is not valid').isEmail()
@@ -32,28 +37,16 @@ exports.validateSignup = (req, res, next) => {
   next()
 }
 
-exports.signUp = async (req, res) => {
-  const { username, email, password } = req.body
-
+export const signUp = async (req, res) => {
   // see if a user already exist
-  const existingUser = await db('users')
-    .select('*')
-    .where('email', email)
-    .first()
+  const existingUser = await Auth.getExistingUser(req.body)
 
   // if there is a user, return back an error
-  if (existingUser) {
-    return res.status(422).send({ message: 'email in use' })
-  }
+  if (existingUser) return res.status(422).send({ message: 'email in use' })
 
   // there is no validation errors, no existing user - create a new one!
   try {
-    const user = await db('users').insert({
-      username,
-      email,
-      avatar: `http://gravatar.com/avatar/${md5(email)}?d=identicon`,
-      password: bcrypt.hashSync(password) // ALWAYS hash password before inserting
-    })
+    const user = await Auth.createAccount(req.body)
     // generate token and send them back
     const token = getToken(user[0])
 
@@ -63,13 +56,72 @@ exports.signUp = async (req, res) => {
   }
 }
 
-exports.signIn = (req, res) => {
+export const signIn = (req, res) => {
   // everything is okay - send token!
   const token = getToken(req.user.id)
 
   res.send({ token })
 }
 
-exports.getCurrentUser = (req, res) => {
+export const getCurrentUser = (req, res) =>
   res.send(_.pick(req.user, ['id', 'username', 'email', 'created_at']))
+
+export const requestReset = async (req, res) => {
+  // make sure that user exists
+  const user = await Auth.getExistingUser(req.body)
+
+  if (!user)
+    return res
+      .status(404)
+      .send(`No account found for ${req.body.email || 'that'} email`)
+
+  const promiseifiedBytes = await randomBytesPromiseified(20)
+
+  // set a reset token and expiry on that user
+  await Auth.setUserToken(req.body, TOKEN_EXPIRY_TIME, promiseifiedBytes)
+
+  const userWithToken = await Auth.getExistingUser(req.body)
+
+  const resetURL = `http://${req.headers.host}/api/account/reset/${
+    userWithToken.reset_token
+  }`
+
+  console.log(resetURL)
+
+  // email them with reset token
+  await mailTransport.sendMail({
+    from: 'noreply@spotify-dev.com',
+    to: user.email,
+    subject: 'Your Password Reset Token',
+    html: mailTemplate(`Your Password Reset Token is here:
+      \n\n
+      <a href="${resetURL}">Click Here to Reset</a>`)
+  })
+
+  res.send({ message: 'Success!' })
+}
+
+export const resetPassword = async (req, res) => {
+  const { password, confirmPassword } = req.body
+
+  // check if the passwords match and its not empty
+  if (password == null || confirmPassword == null)
+    return res.status(422).send('Passwords cannot be blank')
+
+  if (password !== confirmPassword)
+    return res.status(422).send("Passwords don't match")
+
+  // check if the token is valid and has not expired
+  const user = await Auth.userValidityToken(req.params.token, TOKEN_EXPIRY_TIME)
+
+  if (!user) return res.status(404).send('Token expired or is invalid.')
+
+  // hash their password
+  const newPassword = bcrypt.hashSync(password)
+
+  // save the new password and remove old token from account
+  await Auth.updateAccountPassword(user, newPassword)
+
+  // generate jwt and return back
+  res.send({ token: getToken(user.id) })
 }
