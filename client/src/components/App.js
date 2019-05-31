@@ -1,11 +1,30 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-function App() {
-  return (
-    <div>
-      <p>app!</p>
-    </div>
-  )
+import { logout } from '../actions'
+
+class App extends React.Component {
+  onClickLogout = () => this.props.logout()
+
+  render() {
+    return (
+      <div>
+        <p>stuff soon...</p>
+        <p to="/" onClick={this.onClickLogout}>
+          Logout
+        </p>
+      </div>
+    )
+  }
 }
 
-export default App
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch(logout()),
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(App)

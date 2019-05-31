@@ -7,7 +7,8 @@ import {
   signIn,
   getCurrentUser,
   requestReset,
-  resetPassword
+  resetPassword,
+  fbSignIn
 } from '../controllers/authContorller'
 
 const requireAuth = passport.authenticate('jwt', { session: false })
@@ -19,7 +20,7 @@ router.post('/api/auth/signup', validateSignup, signUp)
 router.post('/api/auth/signin', requireSignin, signIn)
 router.get('/api/auth/me', requireAuth, getCurrentUser)
 router.get('/api/auth/facebook', facebookSignin)
-router.get('/api/auth/facebook/callback', facebookSignin, signIn)
+router.get('/api/auth/facebook/callback', facebookSignin, fbSignIn)
 router.post('/api/account/request_reset', requestReset)
 router.post('/api/account/reset/:token', resetPassword)
 
