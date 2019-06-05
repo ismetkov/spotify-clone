@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt-nodejs'
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
 import LocalStrategy from 'passport-local'
 import { Strategy as FacebookStrategy } from 'passport-facebook'
+
 import db from '../db'
 import {
   SECRET_KEY,

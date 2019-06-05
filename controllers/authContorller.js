@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt-nodejs'
 import jwt from 'jsonwebtoken'
-import _ from 'lodash'
+import pick from 'lodash/pick'
 import { randomBytes } from 'crypto'
 import { promisify } from 'util'
-import { SECRET_KEY, TOKEN_EXPIRY_TIME } from 'babel-dotenv'
+import { SECRET_KEY, TOKEN_EXPIRY_TIME, FRONT_END_URL } from 'babel-dotenv'
 import { mailTransport, mailTemplate } from '../handlers/mail'
 import Auth from '../services/Auth'
 
@@ -11,7 +11,7 @@ const randomBytesPromiseified = promisify(randomBytes)
 
 const getToken = userId => {
   return jwt.sign({ sub: userId }, SECRET_KEY, {
-    expiresIn: '2 days'
+    expiresIn: '2 days',
   })
 }
 
@@ -22,7 +22,7 @@ export const validateSignup = (req, res, next) => {
   req.sanitizeBody('email').normalizeEmail({
     gmail_remove_dots: false,
     remove_extension: false,
-    gmail_remove_subaddress: false
+    gmail_remove_subaddress: false,
   })
   req.checkBody('password', 'Password cannot be blank').notEmpty()
 
@@ -63,8 +63,14 @@ export const signIn = (req, res) => {
   res.send({ token })
 }
 
+export const fbSignIn = (req, res) => {
+  const token = getToken(req.user.id)
+
+  res.redirect(`${FRONT_END_URL}/fbsuccess/${token}`)
+}
+
 export const getCurrentUser = (req, res) =>
-  res.send(_.pick(req.user, ['id', 'username', 'email', 'created_at']))
+  res.send(pick(req.user, ['id', 'username', 'email', 'created_at']))
 
 export const requestReset = async (req, res) => {
   // make sure that user exists
@@ -81,12 +87,7 @@ export const requestReset = async (req, res) => {
   await Auth.setUserToken(req.body, TOKEN_EXPIRY_TIME, promiseifiedBytes)
 
   const userWithToken = await Auth.getExistingUser(req.body)
-
-  const resetURL = `http://${req.headers.host}/api/account/reset/${
-    userWithToken.reset_token
-  }`
-
-  console.log(resetURL)
+  const resetURL = `${FRONT_END_URL}/account/reset/${userWithToken.reset_token}`
 
   // email them with reset token
   await mailTransport.sendMail({
@@ -95,7 +96,7 @@ export const requestReset = async (req, res) => {
     subject: 'Your Password Reset Token',
     html: mailTemplate(`Your Password Reset Token is here:
       \n\n
-      <a href="${resetURL}">Click Here to Reset</a>`)
+      <a href="${resetURL}">Click Here to Reset</a>`),
   })
 
   res.send({ message: 'Success!' })
