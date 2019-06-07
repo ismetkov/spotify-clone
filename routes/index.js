@@ -1,6 +1,9 @@
 import express from 'express'
 import passport from 'passport'
 const router = express.Router()
+import { getPlaylist } from '../controllers/playlistController'
+import { getSongById, updateSongPlays } from '../controllers/songController'
+import { getAlbumById, getAlbums } from '../controllers/albumController'
 import {
   validateSignup,
   signUp,
@@ -14,6 +17,17 @@ import {
 const requireAuth = passport.authenticate('jwt', { session: false })
 const requireSignin = passport.authenticate('local', { session: false })
 const facebookSignin = passport.authenticate('facebook', { session: false })
+
+// playlist
+router.get('/api/playlist', getPlaylist)
+
+// songs
+router.get('/api/songs/:song_id', getSongById)
+router.put('/api/songs/:song_id/plays', updateSongPlays)
+
+// albums
+router.get('/api/albums', getAlbums)
+router.get('/api/albums/:album_id', getAlbumById)
 
 // auth
 router.post('/api/auth/signup', validateSignup, signUp)

@@ -11,7 +11,7 @@ const randomBytesPromiseified = promisify(randomBytes)
 
 const getToken = userId => {
   return jwt.sign({ sub: userId }, SECRET_KEY, {
-    expiresIn: '2 days',
+    expiresIn: '2 days'
   })
 }
 
@@ -22,7 +22,7 @@ export const validateSignup = (req, res, next) => {
   req.sanitizeBody('email').normalizeEmail({
     gmail_remove_dots: false,
     remove_extension: false,
-    gmail_remove_subaddress: false,
+    gmail_remove_subaddress: false
   })
   req.checkBody('password', 'Password cannot be blank').notEmpty()
 
@@ -96,7 +96,7 @@ export const requestReset = async (req, res) => {
     subject: 'Your Password Reset Token',
     html: mailTemplate(`Your Password Reset Token is here:
       \n\n
-      <a href="${resetURL}">Click Here to Reset</a>`),
+      <a href="${resetURL}">Click Here to Reset</a>`)
   })
 
   res.send({ message: 'Success!' })
