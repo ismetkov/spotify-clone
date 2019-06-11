@@ -12,6 +12,8 @@ import Forgot from './screens/Forgot'
 import ResetPassword from './screens/ResetPassword'
 import FbSuccess from './screens/FbSuccess'
 
+import NotFound from './screens/NotFound'
+
 import 'react-toastify/dist/ReactToastify.css'
 
 function Root({ auth }) {
@@ -20,11 +22,16 @@ function Root({ auth }) {
       <ToastContainer />
       {!auth.authenticated && <SiteLogo />}
       <Switch>
-        <Route exact path="/" component={auth.authenticated ? App : Welcome} />
+        {auth.authenticated ? (
+          <Route path="/" component={App} />
+        ) : (
+          <Route exact path="/" component={Welcome} />
+        )}
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/forgot" component={Forgot} />
         <Route exact path="/fbsuccess/:token" component={FbSuccess} />
         <Route exact path="/account/reset/:token" component={ResetPassword} />
+        <Route component={NotFound} />
       </Switch>
     </Router>
   )

@@ -12,6 +12,9 @@ const theme = {
   red: 'red',
   error: 'mistyrose',
   info: 'lemonchiffon',
+  lightBlack: '#404040',
+  lightWhite: '#a0a0a0',
+  dark: '#282828'
 }
 
 const PageWrapper = styled.div``

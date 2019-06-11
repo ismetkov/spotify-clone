@@ -42,7 +42,7 @@ class Signup extends Component {
 const mapStateToProps = ({ auth }) => ({ auth })
 
 const mapDispatchToProps = dispatch => ({
-  clearAuthErrorMsg: () => dispatch(clearAuthErrorMsg()),
+  clearAuthErrorMsg: () => dispatch(clearAuthErrorMsg())
 })
 export default connect(
   mapStateToProps,

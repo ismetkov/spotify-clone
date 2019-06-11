@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,500i,700,900');
+
 html {
   box-sizing: border-box;
   font-size: 10px;
@@ -14,10 +16,20 @@ body {
   margin: 0;
   font-size: 1.5rem;
   line-height: 2;
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
+
 }
 
 a {
   text-decoration: none;
   color: black;
+}
+
+
+.md-20 {
+  font-size: 20px !important;
+  
+}
+.md-48 {
+  font-size: 48px !important;
 }

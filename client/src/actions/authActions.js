@@ -8,6 +8,7 @@ import {
   REQUEST_NEW_PASSWORD
 } from './types'
 import axios from 'axios'
+import history from '../history'
 
 export const setTokenHeader = token => {
   if (token) {
@@ -29,6 +30,7 @@ export const signin = payload => ({
 
 export const logout = () => {
   localStorage.clear('token')
+  history.push('/')
 
   return {
     type: AUTH_LOGOUT
