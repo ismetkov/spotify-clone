@@ -10,6 +10,7 @@ import reducers from './reducers'
 import Root from './components/Root'
 
 import './style.css'
+import 'material-design-icons/iconfont/material-icons.css'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const sagaMiddleware = createSagaMiddleware()
