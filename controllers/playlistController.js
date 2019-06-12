@@ -1,7 +1,7 @@
 import Player from '../services/Player'
 
 export const getPlaylist = async (req, res) => {
-  const songIds = await Player.pickSongs(10)
+  const playlist = await Player.getSongsForPlaylist()
 
-  res.send(songIds)
+  res.send(playlist)
 }

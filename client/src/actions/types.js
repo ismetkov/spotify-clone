@@ -16,3 +16,15 @@ export const REQUEST_RESET_NEW_PASSWORD_SUCCESS =
   'request_reset_new_password_success'
 export const REQUEST_RESET_NEW_PASSWORD_ERROR =
   'request_reset_new_password_error'
+
+// player
+export const REQUEST_PLAYLIST = 'request_playlist'
+export const GET_PLAYLIST_SUCCESS = 'get_playlist_success'
+export const GET_PLAYLIST_ERROR = 'get_playlist_error'
+export const TOGGLE_PLAYING = 'toggle_playing'
+export const INCREMENT_CURRENT_INDEX = 'increment_current_index'
+export const DECREMENT_CURRENT_INDEX = 'decrement_current_index'
+export const REQUEST_UPDATE_SONG_PLAYS = 'request_update_song_plays'
+export const REQUEST_UPDATE_SONG_PLAYS_SUCCESS =
+  'request_update_song_plays_success'
+export const REQUEST_UPDATE_SONG_PLAYS_ERROR = 'request_update_song_plays_error'
