@@ -18,7 +18,7 @@ const INITIAL_STATE = {
   loading: false
 }
 
-function auth_reducer(state = INITIAL_STATE, action) {
+function authReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case REQUEST_SIGNUP:
     case REQUEST_SIGNIN:
@@ -65,4 +65,4 @@ function auth_reducer(state = INITIAL_STATE, action) {
   }
 }
 
-export default auth_reducer
+export default authReducer

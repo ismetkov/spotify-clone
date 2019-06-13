@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { endpoint } from '../../helpers/config'
 
 const NowPlayingWrapper = styled.div`
   width: 30%;
@@ -48,22 +49,18 @@ const EllipsisOneLine = styled.div`
   margin-top: -5px;
 `
 
-function NowPlaying() {
+function NowPlaying({ currentSong }) {
   return (
     <NowPlayingWrapper>
       <CoverArt>
-        <CoverArtImage
-          img={
-            'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500'
-          }
-        />
+        <CoverArtImage img={endpoint + currentSong.artwork_path} />
       </CoverArt>
       <TrackInfo>
         <EllipsisOneLine>
-          <SongName>High On Life</SongName>
+          <SongName>{currentSong.title}</SongName>
         </EllipsisOneLine>
         <EllipsisOneLine>
-          <ArtistName>Martin Garrix, Kygo</ArtistName>
+          <ArtistName>{currentSong.artist_name}</ArtistName>
         </EllipsisOneLine>
       </TrackInfo>
     </NowPlayingWrapper>

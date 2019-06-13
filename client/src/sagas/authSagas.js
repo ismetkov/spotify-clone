@@ -14,7 +14,7 @@ import {
   SUCCESS_PASSWORD_RESET_MSG,
   REQUEST_NEW_PASSWORD,
   REQUEST_RESET_NEW_PASSWORD_SUCCESS,
-  REQUEST_RESET_NEW_PASSWORD_ERROR,
+  REQUEST_RESET_NEW_PASSWORD_ERROR
 } from '../actions/types'
 
 function* signup(action) {
@@ -48,12 +48,12 @@ function* requestReset(action) {
     yield put({ type: REQUEST_RESET_PASSWORD_SUCCESS })
     yield put({
       type: SUCCESS_PASSWORD_RESET_MSG,
-      payload: 'You have been emailed a password reset link.',
+      payload: 'You have been emailed a password reset link.'
     })
   } catch (err) {
     yield put({
       type: REQUEST_RESET_PASSWORD_ERROR,
-      payload: err.response.data,
+      payload: err.response.data
     })
   }
 }
@@ -63,18 +63,18 @@ function* resetPassword(action) {
     yield call(AuthService.resetPassword, action.payload)
     yield put({
       type: REQUEST_RESET_NEW_PASSWORD_SUCCESS,
-      payload: 'Password successfully changed',
+      payload: 'Password successfully changed'
     })
 
     history.push('/')
   } catch (err) {
     yield put({
       type: REQUEST_RESET_NEW_PASSWORD_ERROR,
-      payload: err.response.data,
+      payload: err.response.data
     })
   }
 }
-export function* saga() {
+export default function* saga() {
   yield takeLatest(REQUEST_SIGNUP, signup)
   yield takeLatest(REQUEST_SIGNIN, signin)
   yield takeLatest(REQUEST_RESET_PASSWORD, requestReset)

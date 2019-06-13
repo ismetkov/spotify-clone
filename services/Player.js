@@ -3,10 +3,9 @@ import db from '../db'
 class Player {
   pickSongs(limitSongs) {
     return db
-      .select('id')
+      .select('*')
       .from('songs')
       .limit(limitSongs)
-      .map(s => s.id)
   }
 
   getSongById(songId) {
@@ -74,6 +73,26 @@ class Player {
       .from('artists')
       .innerJoin('songs', 'songs.artist_id', '=', 'artists.id')
       .where('album_id', id)
+  }
+
+  getSongsForPlaylist() {
+    return db('songs')
+      .join('artists', 'artists.id', '=', 'songs.artist_id')
+      .join('albums', 'albums.id', '=', 'songs.album_id')
+      .select(
+        'songs.id',
+        'songs.title',
+        'albums.title as album_title',
+        'albums.artwork_path',
+        'artists.name as artist_name',
+        'songs.duration',
+        'songs.path',
+        'songs.album_order',
+        'songs.plays',
+        'songs.artist_id',
+        'songs.album_id',
+        'songs.genre_id'
+      )
   }
 }
 

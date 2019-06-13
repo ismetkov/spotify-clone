@@ -37,6 +37,10 @@ const PlayerButton = styled.button`
   background-color: transparent;
   border: none;
   vertical-align: middle;
+
+  &:disabled {
+    color: ${props => props.theme.lightBlack};
+  }
 `
 const PlayerPlaybackBar = styled.div`
   width: 100%;
@@ -55,6 +59,15 @@ const PlayerPlaybackTime = styled.div`
 
 class PlayerControls extends Component {
   render() {
+    const {
+      onClickPlaySong,
+      onClickPauseSong,
+      isPlaying,
+      onClickNextSong,
+      onClickPrevSong,
+      currentIndex
+    } = this.props
+
     return (
       <PlayerControlsWrapper>
         <PlayerControlsActions>
@@ -62,13 +75,22 @@ class PlayerControls extends Component {
             <PlayerButton title="Shuffle">
               <i className="material-icons md-20">shuffle</i>
             </PlayerButton>
-            <PlayerButton title="Previous">
+            <PlayerButton
+              disabled={currentIndex === 0}
+              title="Previous"
+              onClick={onClickPrevSong}
+            >
               <i className="material-icons md-20">skip_previous</i>
             </PlayerButton>
-            <PlayerButton title="Pause">
-              <i className="material-icons md-48">play_circle_outline</i>
+            <PlayerButton
+              title={isPlaying ? 'Pause' : 'Play'}
+              onClick={isPlaying ? onClickPauseSong : onClickPlaySong}
+            >
+              <i className="material-icons md-48">
+                {isPlaying ? 'pause_circle_outline' : 'play_circle_outline'}
+              </i>
             </PlayerButton>
-            <PlayerButton title="Next">
+            <PlayerButton title="Next" onClick={onClickNextSong}>
               <i className="material-icons md-20">skip_next</i>
             </PlayerButton>
             <PlayerButton title="Enable Repeat">

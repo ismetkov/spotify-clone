@@ -29,11 +29,28 @@ const PlayerMain = styled.div`
 
 class Player extends Component {
   render() {
+    const {
+      currentSong,
+      onClickPlaySong,
+      onClickPauseSong,
+      onClickNextSong,
+      onClickPrevSong,
+      isPlaying,
+      currentIndex
+    } = this.props
+
     return (
       <PlayerWrapper>
         <PlayerMain>
-          <NowPlaying />
-          <PlayerControls />
+          <NowPlaying currentSong={currentSong} />
+          <PlayerControls
+            isPlaying={isPlaying}
+            currentIndex={currentIndex}
+            onClickPlaySong={onClickPlaySong}
+            onClickPauseSong={onClickPauseSong}
+            onClickNextSong={onClickNextSong}
+            onClickPrevSong={onClickPrevSong}
+          />
           <VolumeControls />
         </PlayerMain>
       </PlayerWrapper>
