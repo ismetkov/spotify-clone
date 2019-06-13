@@ -31,13 +31,13 @@ const TrackInfo = styled.div`
 `
 const SongName = styled.a`
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
   color: ${props => props.theme.white};
 `
 const ArtistName = styled.a`
   display: block;
   font-weight: 300;
-  font-size: 12px;
+  font-size: 14px;
   color: ${props => props.theme.lightWhite}!important;
 `
 const EllipsisOneLine = styled.div`

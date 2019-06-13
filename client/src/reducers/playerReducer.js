@@ -11,7 +11,7 @@ const INITIAL_STATE = {
   isPlaying: false
 }
 
-function playlistReducer(state = INITIAL_STATE, action) {
+function playerReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case GET_PLAYLIST_SUCCESS:
       return { ...state, currentPlaylist: action.payload }
@@ -38,4 +38,4 @@ function playlistReducer(state = INITIAL_STATE, action) {
   }
 }
 
-export default playlistReducer
+export default playerReducer

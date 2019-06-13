@@ -20,9 +20,12 @@ export const PlayerPlaybackProgressBg = styled.div`
   transform: translateY(-50%);
 `
 
-export const PlayerPlaybackProgressBgCharge = styled.div`
+export const PlayerPlaybackProgressBgCharge = styled.div.attrs(props => ({
+  style: {
+    width: `${props.progress}%`
+  }
+}))`
   background-color: ${props => props.theme.lightWhite};
   border-radius: 2px;
   height: 4px;
-  width: ${props => `${props.progress}%`};
 `

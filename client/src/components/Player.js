@@ -28,24 +28,44 @@ const PlayerMain = styled.div`
 `
 
 class Player extends Component {
-  render() {
+  constructor(props) {
+    super(props)
+
+    this.playerRef = React.createRef()
+  }
+
+  componentDidMount = () => {
+    this.prevetDefaultEvents()
+  }
+
+  prevetDefaultEvents = () => {
+    const events = ['mousedown', 'touchstart', 'mousemove', 'touchmove']
+
+    events.forEach(e =>
+      this.playerRef.current.addEventListener(e, ev => ev.preventDefault())
+    )
+  }
+
+  render = () => {
     const {
+      audioRef,
+      currentIndex,
+      isPlaying,
       currentSong,
       onClickPlaySong,
       onClickPauseSong,
       onClickNextSong,
-      onClickPrevSong,
-      isPlaying,
-      currentIndex
+      onClickPrevSong
     } = this.props
 
     return (
-      <PlayerWrapper>
+      <PlayerWrapper ref={this.playerRef}>
         <PlayerMain>
           <NowPlaying currentSong={currentSong} />
           <PlayerControls
-            isPlaying={isPlaying}
+            audioRef={audioRef}
             currentIndex={currentIndex}
+            isPlaying={isPlaying}
             onClickPlaySong={onClickPlaySong}
             onClickPauseSong={onClickPauseSong}
             onClickNextSong={onClickNextSong}
