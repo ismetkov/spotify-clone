@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
+import formatTime from '../../helpers/formatTime'
+
 import {
   PlayerPlaybackProgress,
   PlayerPlaybackProgressBg,
@@ -51,22 +53,117 @@ const PlayerPlaybackBar = styled.div`
 `
 
 const PlayerPlaybackTime = styled.div`
-  font-size: 11px;
+  font-size: 12px;
   line-height: 16px;
   min-width: 40px;
   text-align: center;
 `
 
 class PlayerControls extends Component {
-  render() {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      progressBar: {
+        mouseDown: false
+      }
+    }
+
+    this.progressRef = React.createRef()
+  }
+
+  componentDidMount = () => {
+    this.getTotalTimeSong()
+    this.getCurrentTimeSong()
+    this.setMouseDownDefault()
+  }
+
+  setTimeSong = seconds => {
+    const { audioRef } = this.props
+
+    audioRef.current.currentTime = seconds
+  }
+
+  getTotalTimeSong = () => {
+    const { audioRef } = this.props
+
+    audioRef.current.addEventListener('canplay', () => {
+      const remaining = formatTime(audioRef.current.duration)
+
+      this.setState(prevState => ({
+        progressBar: {
+          ...prevState.progressBar,
+          remaining
+        }
+      }))
+    })
+  }
+
+  getCurrentTimeSong = () => {
+    const { audioRef } = this.props
+
+    audioRef.current.addEventListener('timeupdate', () => {
+      if (audioRef.current.duration) {
+        this.setState(prevState => ({
+          progressBar: {
+            ...prevState.progressBar,
+            current: formatTime(audioRef.current.currentTime),
+            percentage:
+              (audioRef.current.currentTime / audioRef.current.duration) * 100
+          }
+        }))
+      }
+    })
+  }
+
+  getPlayerPercentage = e =>
+    (e.nativeEvent.offsetX / this.progressRef.current.offsetWidth) * 100
+
+  onClickChangeProgressBar = e => {
+    const { audioRef } = this.props
+    const percentage = this.getPlayerPercentage(e)
+    const seconds = audioRef.current.duration * (percentage / 100)
+
+    this.setTimeSong(seconds)
+  }
+
+  onMouseMoveChangeProgressBar = e => {
+    const { audioRef } = this.props
+    const { progressBar } = this.state
+
+    if (progressBar.mouseDown) {
+      const percentage = this.getPlayerPercentage(e)
+      const seconds = audioRef.current.duration * (percentage / 100)
+
+      this.setTimeSong(seconds)
+    }
+  }
+
+  toggleMouseDownProgressBar = () =>
+    this.setState(prevState => ({
+      progressBar: {
+        ...prevState.progressBar,
+        mouseDown: !prevState.progressBar.mouseDown
+      }
+    }))
+
+  setMouseDownDefault = () =>
+    document.addEventListener('mouseup', () =>
+      this.setState(prevState => ({
+        progressBar: { ...prevState.progressBar, mouseDown: false }
+      }))
+    )
+
+  render = () => {
     const {
+      isPlaying,
+      currentIndex,
       onClickPlaySong,
       onClickPauseSong,
-      isPlaying,
       onClickNextSong,
-      onClickPrevSong,
-      currentIndex
+      onClickPrevSong
     } = this.props
+    const { progressBar } = this.state
 
     return (
       <PlayerControlsWrapper>
@@ -98,13 +195,25 @@ class PlayerControls extends Component {
             </PlayerButton>
           </PlayerBtns>
           <PlayerPlaybackBar>
-            <PlayerPlaybackTime>0:00</PlayerPlaybackTime>
-            <PlayerPlaybackProgress>
+            <PlayerPlaybackTime>
+              {progressBar.current || '0:00'}
+            </PlayerPlaybackTime>
+            <PlayerPlaybackProgress
+              ref={this.progressRef}
+              onClick={this.onClickChangeProgressBar}
+              onMouseMove={this.onMouseMoveChangeProgressBar}
+              onMouseDown={this.toggleMouseDownProgressBar}
+              onMouseUp={this.toggleMouseDownProgressBar}
+            >
               <PlayerPlaybackProgressBg>
-                <PlayerPlaybackProgressBgCharge progress={'7'} />
+                <PlayerPlaybackProgressBgCharge
+                  progress={progressBar.percentage}
+                />
               </PlayerPlaybackProgressBg>
             </PlayerPlaybackProgress>
-            <PlayerPlaybackTime>0:00</PlayerPlaybackTime>
+            <PlayerPlaybackTime>
+              {progressBar.remaining || '0:00'}
+            </PlayerPlaybackTime>
           </PlayerPlaybackBar>
         </PlayerControlsActions>
       </PlayerControlsWrapper>

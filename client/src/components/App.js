@@ -27,8 +27,14 @@ class App extends React.Component {
     this.audioRef = React.createRef()
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.setPlaylist()
+  }
+
+  onClickLogout = () => {
+    const { logout } = this.props
+
+    logout()
   }
 
   setPlaylist = () => {
@@ -37,37 +43,43 @@ class App extends React.Component {
     getPlaylist()
   }
 
-  onClickLogout = () => this.props.logout()
-
   onClickPlaySong = () => {
+    const { togglePlaying, updateSongPlays } = this.props
+
     this.audioRef.current.autoplay = true
 
     if (this.audioRef.current.currentTime === 0) {
-      this.props.updateSongPlays(this.props.currentSong.id)
+      updateSongPlays(this.props.currentSong.id)
     }
 
     this.audioRef.current.play()
-    this.props.togglePlaying()
+    togglePlaying()
   }
 
   onClickPauseSong = () => {
+    const { togglePlaying } = this.props
+
     this.audioRef.current.pause()
-    this.props.togglePlaying()
+    togglePlaying()
   }
 
   onClickNextSong = () => {
-    this.props.incrementCurrentIndex()
-    if (!this.props.player.isPlaying) {
-      this.props.togglePlaying()
+    const { incrementCurrentIndex, togglePlaying, player } = this.props
+
+    this.audioRef.current.autoplay = true
+    incrementCurrentIndex()
+
+    if (!player.isPlaying) {
+      togglePlaying()
     }
   }
 
   onClickPrevSong = () => {
-    if (
-      this.audioRef.current.currentTime >= 3 ||
-      this.props.player.currentIndex === 0
-    ) {
+    const { player } = this.props
+
+    if (this.audioRef.current.currentTime >= 3 || player.currentIndex === 0) {
       this.setTimeSong(0)
+
       return
     }
 
@@ -86,8 +98,9 @@ class App extends React.Component {
           <MainContent />
           <audio ref={this.audioRef} src={endpoint + currentSong.path} />
           <Player
-            isPlaying={player.isPlaying}
+            audioRef={this.audioRef}
             currentSong={currentSong}
+            isPlaying={player.isPlaying}
             currentIndex={player.currentIndex}
             onClickPlaySong={this.onClickPlaySong}
             onClickPauseSong={this.onClickPauseSong}
