@@ -1,19 +1,19 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { createStore, applyMiddleware, compose } from 'redux'
-import { Provider } from 'react-redux'
-import createSagaMiddleware from 'redux-saga'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { Provider } from 'react-redux';
+import createSagaMiddleware from 'redux-saga';
 
-import rootSaga from './rootSaga'
-import reducers from './reducers'
+import rootSaga from './rootSaga';
+import reducers from './reducers';
 
-import Root from './components/Root'
+import Root from './components/Root';
 
-import './style.css'
-import 'material-design-icons/iconfont/material-icons.css'
+import './style.css';
+import 'material-design-icons/iconfont/material-icons.css';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const sagaMiddleware = createSagaMiddleware()
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   reducers,
@@ -23,13 +23,13 @@ const store = createStore(
     }
   },
   composeEnhancers(applyMiddleware(sagaMiddleware))
-)
+);
 
-sagaMiddleware.run(rootSaga)
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
     <Root />
   </Provider>,
   document.querySelector('#root')
-)
+);

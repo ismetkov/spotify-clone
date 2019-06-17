@@ -1,30 +1,30 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
-import { clearAuthErrorMsg } from '../../actions'
+import { clearAuthErrorMsg } from '../../actions';
 
-import Page from '../Page'
-import SignUpForm from '../forms/SignUpForm'
+import Page from '../Page';
+import SignUpForm from '../forms/SignUpForm';
 
-import PageContent from '../styles/PageContentStyles'
-import Headline from '../styles/PageHeadline'
-import ErrorMsg from '../styles/ErrorMsg'
+import PageContent from '../styles/PageContentStyles';
+import Headline from '../styles/PageHeadline';
+import ErrorMsg from '../styles/ErrorMsg';
 
 class Signup extends Component {
   componentWillUnmount() {
-    const { auth, clearAuthErrorMsg } = this.props
+    const { auth, clearAuthErrorMsg } = this.props;
 
     if (auth.errorMsg) {
-      clearAuthErrorMsg()
+      clearAuthErrorMsg();
     }
   }
 
   render() {
-    const { auth } = this.props
+    const { auth } = this.props;
 
     if (auth.authenticated) {
-      return <Redirect to="/" />
+      return <Redirect to="/" />;
     }
 
     return (
@@ -35,16 +35,16 @@ class Signup extends Component {
           <SignUpForm />
         </PageContent>
       </Page>
-    )
+    );
   }
 }
 
-const mapStateToProps = ({ auth }) => ({ auth })
+const mapStateToProps = ({ auth }) => ({ auth });
 
 const mapDispatchToProps = dispatch => ({
   clearAuthErrorMsg: () => dispatch(clearAuthErrorMsg())
-})
+});
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Signup)
+)(Signup);

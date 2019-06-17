@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
+import React, { Component } from 'react';
+import styled from 'styled-components';
 
-import NowPlaying from './player/NowPlaying'
-import PlayerControls from './player/PlayerControls'
-import VolumeControls from './player/VolumeControls'
+import NowPlaying from './player/NowPlaying';
+import PlayerControls from './player/PlayerControls';
+import VolumeControls from './player/VolumeControls';
 
 const PlayerWrapper = styled.div`
   user-select: none;
@@ -18,45 +18,49 @@ const PlayerWrapper = styled.div`
   a:hover {
     text-decoration: underline;
   }
-`
+`;
 const PlayerMain = styled.div`
   height: 90px;
   padding: 0 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
+`;
 
 class Player extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.playerRef = React.createRef()
+    this.playerRef = React.createRef();
   }
 
   componentDidMount = () => {
-    this.prevetDefaultEvents()
-  }
+    this.prevetDefaultEvents();
+  };
 
   prevetDefaultEvents = () => {
-    const events = ['mousedown', 'touchstart', 'mousemove', 'touchmove']
+    const events = ['mousedown', 'touchstart', 'mousemove', 'touchmove'];
 
     events.forEach(e =>
       this.playerRef.current.addEventListener(e, ev => ev.preventDefault())
-    )
-  }
+    );
+  };
 
   render = () => {
     const {
       audioRef,
       currentIndex,
       isPlaying,
+      repeatMode,
+      shuffleMode,
       currentSong,
       onClickPlaySong,
       onClickPauseSong,
       onClickNextSong,
-      onClickPrevSong
-    } = this.props
+      onClickPrevSong,
+      onClickToggleRepeatMode,
+      onClickToggleShuffle
+    } = this.props;
 
     return (
       <PlayerWrapper ref={this.playerRef}>
@@ -66,16 +70,20 @@ class Player extends Component {
             audioRef={audioRef}
             currentIndex={currentIndex}
             isPlaying={isPlaying}
+            repeatMode={repeatMode}
+            shuffleMode={shuffleMode}
             onClickPlaySong={onClickPlaySong}
             onClickPauseSong={onClickPauseSong}
             onClickNextSong={onClickNextSong}
             onClickPrevSong={onClickPrevSong}
+            onClickToggleRepeatMode={onClickToggleRepeatMode}
+            onClickToggleShuffle={onClickToggleShuffle}
           />
           <VolumeControls />
         </PlayerMain>
       </PlayerWrapper>
-    )
-  }
+    );
+  };
 }
 
-export default Player
+export default Player;

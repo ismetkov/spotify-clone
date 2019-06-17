@@ -1,6 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-import { endpoint } from '../../helpers/config'
+import React from 'react';
+import styled from 'styled-components';
+import { endpoint } from '../../helpers/config';
 
 const NowPlayingWrapper = styled.div`
   width: 30%;
@@ -9,13 +9,13 @@ const NowPlayingWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   position: relative;
-`
+`;
 const CoverArt = styled.div`
   width: 56px;
   height: 56px;
   background-color: ${props => props.theme.lightBlack};
   position: relative;
-`
+`;
 const CoverArtImage = styled.div`
   background-image: url(${props => props.img});
   position: absolute;
@@ -24,22 +24,22 @@ const CoverArtImage = styled.div`
   height: 100%;
   background-size: cover;
   background-position: 50%;
-`
+`;
 const TrackInfo = styled.div`
   margin: 0 15px;
   overflow: hidden;
-`
+`;
 const SongName = styled.a`
   font-size: 14px;
   font-weight: 500;
   color: ${props => props.theme.white};
-`
+`;
 const ArtistName = styled.a`
   display: block;
   font-weight: 300;
   font-size: 14px;
   color: ${props => props.theme.lightWhite}!important;
-`
+`;
 const EllipsisOneLine = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
@@ -47,7 +47,7 @@ const EllipsisOneLine = styled.div`
   padding-right: 1px;
   margin-right: -1px;
   margin-top: -5px;
-`
+`;
 
 function NowPlaying({ currentSong }) {
   return (
@@ -64,7 +64,7 @@ function NowPlaying({ currentSong }) {
         </EllipsisOneLine>
       </TrackInfo>
     </NowPlayingWrapper>
-  )
+  );
 }
 
-export default NowPlaying
+export default NowPlaying;
