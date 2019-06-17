@@ -1,38 +1,38 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
-import { facebookLogin, clearAuthErrorMsg } from '../../actions'
+import { facebookLogin, clearAuthErrorMsg } from '../../actions';
 
-import Page from '../Page'
-import SignInForm from '../forms/SignInForm'
+import Page from '../Page';
+import SignInForm from '../forms/SignInForm';
 
-import { endpoint } from '../../helpers/config'
-import PageContent from '../styles/PageContentStyles'
-import Headline from '../styles/PageHeadline'
-import Button from '../styles/Button'
-import Divider from '../styles/Divider'
-import ErrorMsg from '../styles/ErrorMsg'
-import InfoMsg from '../styles/InfoMsg'
+import { endpoint } from '../../helpers/config';
+import PageContent from '../styles/PageContentStyles';
+import Headline from '../styles/PageHeadline';
+import Button from '../styles/Button';
+import Divider from '../styles/Divider';
+import ErrorMsg from '../styles/ErrorMsg';
+import InfoMsg from '../styles/InfoMsg';
 
 const StyledLink = styled(Link)`
   color: ${props => props.theme.green};
-`
+`;
 
 class Welcome extends Component {
   componentWillUnmount() {
-    const { auth, clearAuthErrorMsg } = this.props
+    const { auth, clearAuthErrorMsg } = this.props;
 
     if (auth.errorMsg || auth.passwordResetSuccessMsg) {
-      clearAuthErrorMsg()
+      clearAuthErrorMsg();
     }
   }
 
-  onClickLoginWithFacebook = () => this.props.facebookLogin()
+  onClickLoginWithFacebook = () => this.props.facebookLogin();
 
   render() {
-    const { auth } = this.props
+    const { auth } = this.props;
 
     return (
       <Page>
@@ -61,18 +61,18 @@ class Welcome extends Component {
           </Link>
         </PageContent>
       </Page>
-    )
+    );
   }
 }
 
-const mapStateToProps = ({ auth }) => ({ auth })
+const mapStateToProps = ({ auth }) => ({ auth });
 
 const mapDispatchToProps = dispatch => ({
   facebookLogin: () => dispatch(facebookLogin()),
-  clearAuthErrorMsg: () => dispatch(clearAuthErrorMsg()),
-})
+  clearAuthErrorMsg: () => dispatch(clearAuthErrorMsg())
+});
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Welcome)
+)(Welcome);

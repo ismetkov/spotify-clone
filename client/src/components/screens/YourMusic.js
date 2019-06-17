@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 function YourMusic() {
   return (
     <div>
       <p>your music</p>
     </div>
-  )
+  );
 }
 
-export default YourMusic
+export default YourMusic;

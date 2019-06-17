@@ -1,27 +1,27 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import { clearAuthErrorMsg } from '../../actions'
+import { clearAuthErrorMsg } from '../../actions';
 
-import Page from '../Page'
-import RequestResetForm from '../forms/RequestResetForm'
+import Page from '../Page';
+import RequestResetForm from '../forms/RequestResetForm';
 
-import PageContent from '../styles/PageContentStyles'
-import Headline from '../styles/PageHeadline'
-import ErrorMsg from '../styles/ErrorMsg'
-import InfoMsg from '../styles/InfoMsg'
+import PageContent from '../styles/PageContentStyles';
+import Headline from '../styles/PageHeadline';
+import ErrorMsg from '../styles/ErrorMsg';
+import InfoMsg from '../styles/InfoMsg';
 
 class Forgot extends Component {
   componentWillUnmount() {
-    const { auth, clearAuthErrorMsg } = this.props
+    const { auth, clearAuthErrorMsg } = this.props;
 
     if (auth.errorMsg || auth.passwordResetSuccessMsg) {
-      clearAuthErrorMsg()
+      clearAuthErrorMsg();
     }
   }
 
   render() {
-    const { auth } = this.props
+    const { auth } = this.props;
 
     return (
       <Page>
@@ -34,16 +34,16 @@ class Forgot extends Component {
           <RequestResetForm />
         </PageContent>
       </Page>
-    )
+    );
   }
 }
 
-const mapStateToProps = ({ auth }) => ({ auth })
+const mapStateToProps = ({ auth }) => ({ auth });
 
 const mapDispatchToProps = dispatch => ({
-  clearAuthErrorMsg: () => dispatch(clearAuthErrorMsg()),
-})
+  clearAuthErrorMsg: () => dispatch(clearAuthErrorMsg())
+});
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Forgot)
+)(Forgot);

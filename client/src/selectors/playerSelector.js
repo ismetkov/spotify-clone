@@ -1,16 +1,16 @@
-import { createSelector } from 'reselect'
+import { createSelector } from 'reselect';
 
-const getCurrentPlaylist = state => state.currentPlaylist
-const getCurrentIndex = state => state.currentIndex
+const getCurrentPlaylist = state => state.currentPlaylist;
+const getCurrentIndex = state => state.currentIndex;
 
 export const getCurrentSong = createSelector(
   getCurrentPlaylist,
   getCurrentIndex,
   (currentPlaylist, currentIndex) => {
     if (currentPlaylist.length === 0) {
-      return {}
+      return {};
     }
 
-    return currentPlaylist[currentIndex]
+    return currentPlaylist[currentIndex];
   }
-)
+);
