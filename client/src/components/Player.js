@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import NowPlaying from './player/NowPlaying';
 import PlayerControls from './player/PlayerControls';
-import VolumeControls from './player/VolumeControls';
+import VolumeControl from './player/VolumeControl';
 
 const PlayerWrapper = styled.div`
   user-select: none;
@@ -79,7 +79,7 @@ class Player extends Component {
             onClickToggleRepeatMode={onClickToggleRepeatMode}
             onClickToggleShuffle={onClickToggleShuffle}
           />
-          <VolumeControls />
+          <VolumeControl audioRef={audioRef} />
         </PlayerMain>
       </PlayerWrapper>
     );

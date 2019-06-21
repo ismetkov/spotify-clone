@@ -33,6 +33,18 @@ class App extends React.Component {
   componentDidMount = () => {
     this.setPlaylist();
     this.onEndCallNextSong();
+    this.setupBeforeUnloadListener();
+  };
+
+  setupBeforeUnloadListener = () => {
+    window.addEventListener('beforeunload', () => {
+      const { player } = this.props;
+
+      localStorage.setItem(
+        'player',
+        JSON.stringify({ ...player, isPlaying: false })
+      );
+    });
   };
 
   onClickLogout = () => {
