@@ -38,7 +38,7 @@ const ArtistName = styled.a`
   display: block;
   font-weight: 300;
   font-size: 14px;
-  color: ${props => props.theme.lightWhite}!important;
+  color: ${props => props.theme.lightWhite};
 `;
 const EllipsisOneLine = styled.div`
   overflow: hidden;
@@ -53,7 +53,7 @@ function NowPlaying({ currentSong }) {
   return (
     <NowPlayingWrapper>
       <CoverArt>
-        <CoverArtImage img={endpoint + currentSong.artwork_path} />
+        <CoverArtImage img={`${endpoint}${currentSong.artwork_path}`} />
       </CoverArt>
       <TrackInfo>
         <EllipsisOneLine>

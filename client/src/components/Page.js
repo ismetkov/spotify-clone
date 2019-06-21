@@ -14,7 +14,8 @@ const theme = {
   info: 'lemonchiffon',
   lightBlack: '#404040',
   lightWhite: '#a0a0a0',
-  dark: '#282828'
+  dark: '#282828',
+  blackDark: '#03030352'
 };
 
 const PageWrapper = styled.div``;

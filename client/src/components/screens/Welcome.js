@@ -39,7 +39,7 @@ class Welcome extends Component {
         <PageContent>
           <Headline>To continue, log in to Spotify</Headline>
           <a href={`${endpoint}/api/auth/facebook`}>
-            <Button color="white" bgColor="blue">
+            <Button bold color="white" bgColor="blue">
               Sign In With Facebook
             </Button>
           </a>
@@ -57,7 +57,7 @@ class Welcome extends Component {
           <hr />
           <Headline>Don't have an account?</Headline>
           <Link to="/signup">
-            <Button>Sign Up</Button>
+            <Button bold>Sign Up</Button>
           </Link>
         </PageContent>
       </Page>

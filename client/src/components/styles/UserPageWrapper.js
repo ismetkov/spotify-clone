@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const UserPageWrapper = styled.div`
   min-height: 100vh;
@@ -7,11 +7,6 @@ const UserPageWrapper = styled.div`
   background-color: #2b1331;
   color: white;
 
-  p,
-  a {
-    color: white;
-  }
-
   a:hover {
     cursor: pointer;
   }
@@ -19,6 +14,6 @@ const UserPageWrapper = styled.div`
   p {
     margin: 0;
   }
-`
+`;
 
-export default UserPageWrapper
+export default UserPageWrapper;
