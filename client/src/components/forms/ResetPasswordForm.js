@@ -1,23 +1,23 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { reduxForm, Field } from 'redux-form'
-import map from 'lodash/map'
-import each from 'lodash/each'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
+import map from 'lodash/map';
+import each from 'lodash/each';
 
-import { resetNewPassword } from '../../actions'
+import { resetNewPassword } from '../../actions';
 
-import { resetPasswordFields } from './fieldsData'
-import AuthFormField from './formFields/AuthFormField'
-import validateEmail from '../../helpers/validateEmail'
+import { resetPasswordFields } from './fieldsData';
+import AuthFormField from './formFields/AuthFormField';
+import validateEmail from '../../helpers/validateEmail';
 
-import Button from '../styles/Button'
+import Button from '../styles/Button';
 
 class ResetPasswordForm extends Component {
   onFormSubmit = values => {
-    const { resetPasswordToken, resetNewPassword } = this.props
+    const { resetPasswordToken, resetNewPassword } = this.props;
 
-    resetNewPassword({ ...values, resetPasswordToken })
-  }
+    resetNewPassword({ ...values, resetPasswordToken });
+  };
 
   renderFields = () =>
     map(resetPasswordFields, ({ name, type, placeholder }) => (
@@ -28,13 +28,13 @@ class ResetPasswordForm extends Component {
         component={AuthFormField}
         placeholder={placeholder}
       />
-    ))
+    ));
 
   render() {
-    const { auth } = this.props
+    const { auth, handleSubmit } = this.props;
 
     return (
-      <form onSubmit={this.props.handleSubmit(this.onFormSubmit)}>
+      <form onSubmit={handleSubmit(this.onFormSubmit)}>
         {this.renderFields()}
         <Button
           disabled={auth.loading}
@@ -45,34 +45,34 @@ class ResetPasswordForm extends Component {
           Reset Password
         </Button>
       </form>
-    )
+    );
   }
 }
 
-const mapStateToProps = ({ auth }) => ({ auth })
+const mapStateToProps = ({ auth }) => ({ auth });
 
 const mapDispatchToProps = dispatch => ({
-  resetNewPassword: payload => dispatch(resetNewPassword(payload)),
-})
+  resetNewPassword: payload => dispatch(resetNewPassword(payload))
+});
 
 ResetPasswordForm = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ResetPasswordForm)
+)(ResetPasswordForm);
 
 function validate(values) {
-  const errors = {}
+  const errors = {};
 
-  errors.email = validateEmail(values.email)
+  errors.email = validateEmail(values.email);
 
   each(resetPasswordFields, ({ name }) => {
-    if (!values[name]) errors[name] = `You must provide ${name} field`
-  })
+    if (!values[name]) errors[name] = `You must provide ${name} field`;
+  });
 
-  return errors
+  return errors;
 }
 
 export default reduxForm({
   validate,
-  form: 'resetPasswordForm',
-})(ResetPasswordForm)
+  form: 'resetPasswordForm'
+})(ResetPasswordForm);

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
-  logout,
   getPlaylist,
   togglePlaying,
   toggleRepeatMode,
@@ -46,12 +45,6 @@ class App extends React.Component {
         JSON.stringify({ ...player, isPlaying: false })
       );
     });
-  };
-
-  onClickLogout = () => {
-    const { logout } = this.props;
-
-    logout();
   };
 
   setPlaylist = () => {
@@ -181,7 +174,7 @@ class App extends React.Component {
     return (
       <Page>
         <UserPageWrapper>
-          <Sidebar logout={this.onClickLogout} />
+          <Sidebar />
           <MainContent
             audioRef={this.audioRef}
             onClickPlayTrack={this.onClickPlayTrack}
@@ -211,7 +204,6 @@ class App extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(logout()),
   getPlaylist: () => dispatch(getPlaylist()),
   togglePlaying: () => dispatch(togglePlaying()),
   toggleRepeatMode: () => dispatch(toggleRepeatMode()),

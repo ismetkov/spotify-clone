@@ -16,6 +16,7 @@ export const REQUEST_RESET_NEW_PASSWORD_SUCCESS =
   'request_reset_new_password_success';
 export const REQUEST_RESET_NEW_PASSWORD_ERROR =
   'request_reset_new_password_error';
+export const SET_CURRENT_USER = 'set_current_user';
 
 // player
 export const REQUEST_PLAYLIST = 'request_playlist';

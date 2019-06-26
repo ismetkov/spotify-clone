@@ -13,7 +13,11 @@ import validateEmail from '../../helpers/validateEmail';
 import Button from '../styles/Button';
 
 class SignInForm extends Component {
-  onFormSubmit = values => this.props.signin(values);
+  onFormSubmit = values => {
+    const { signin } = this.props;
+
+    signin(values);
+  };
 
   renderFields = () =>
     map(signInFields, ({ name, type, placeholder }) => (
@@ -27,10 +31,10 @@ class SignInForm extends Component {
     ));
 
   render() {
-    const { auth } = this.props;
+    const { auth, handleSubmit } = this.props;
 
     return (
-      <form onSubmit={this.props.handleSubmit(this.onFormSubmit)}>
+      <form onSubmit={handleSubmit(this.onFormSubmit)}>
         {this.renderFields()}
         <Button bold color="white" bgColor="green" disabled={auth.loading}>
           Sign In
