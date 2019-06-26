@@ -1,10 +1,10 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Button = styled.button`
   color: ${({ theme, color }) => theme[color] || theme.darkGray};
   background-color: ${({ theme, bgColor }) => theme[bgColor] || theme.white};
   font-size: 14px;
-  font-weight: 700;
+  font-weight: ${props => (props.bold ? 700 : 300)};
   line-height: 1;
   border-radius: 500px;
   padding: 16px 48px 18px;
@@ -12,7 +12,7 @@ const Button = styled.button`
   transition-duration: 0.3s;
   border-width: 0;
   letter-spacing: 2px;
-  min-width: 100%;
+  min-width: ${props => (props.half ? '50%' : '100%')};
   text-transform: uppercase;
   white-space: normal;
   cursor: pointer;
@@ -28,6 +28,6 @@ const Button = styled.button`
     opacity: 0.6;
     cursor: not-allowed;
   }
-`
+`;
 
-export default Button
+export default Button;

@@ -10,7 +10,8 @@ import {
   decrementCurrentIndex,
   updateSongPlays,
   toggleShuffleMode,
-  shuffleIndexPlaylist
+  shuffleIndexPlaylist,
+  setPlayingState
 } from '../actions';
 
 import { getCurrentSong } from '../selectors/playerSelector';
@@ -60,30 +61,33 @@ class App extends React.Component {
   };
 
   onClickPlaySong = () => {
-    const { togglePlaying, updateSongPlays, player } = this.props;
+    const audioRef = this.audioRef.current;
+    const { togglePlaying, updateSongPlays, player, currentSong } = this.props;
 
     if (player.isPlaying) {
       togglePlaying();
     }
 
-    this.audioRef.current.autoplay = true;
+    audioRef.autoplay = true;
 
-    if (this.audioRef.current.currentTime === 0) {
-      updateSongPlays(this.props.currentSong.id);
+    if (audioRef.currentTime === 0) {
+      updateSongPlays(currentSong.id);
     }
 
-    this.audioRef.current.play();
+    audioRef.play();
     togglePlaying();
   };
 
   onClickPauseSong = () => {
+    const audioRef = this.audioRef.current;
     const { togglePlaying } = this.props;
 
-    this.audioRef.current.pause();
+    audioRef.pause();
     togglePlaying();
   };
 
   onClickNextSong = () => {
+    const audioRef = this.audioRef.current;
     const {
       incrementCurrentIndex,
       togglePlaying,
@@ -93,7 +97,7 @@ class App extends React.Component {
 
     if (player.shuffleMode) {
       shuffleIndexPlaylist();
-      this.audioRef.current.autoplay = true;
+      audioRef.autoplay = true;
       this.onClickPlaySong();
 
       return;
@@ -106,7 +110,7 @@ class App extends React.Component {
       return;
     }
 
-    this.audioRef.current.autoplay = true;
+    audioRef.autoplay = true;
     incrementCurrentIndex();
 
     if (!player.isPlaying) {
@@ -115,30 +119,60 @@ class App extends React.Component {
   };
 
   onClickPrevSong = () => {
-    const { player } = this.props;
+    const audioRef = this.audioRef.current;
+    const { player, decrementCurrentIndex, togglePlaying } = this.props;
 
-    if (this.audioRef.current.currentTime >= 3 || player.currentIndex === 0) {
+    if (audioRef.currentTime >= 3 || player.currentIndex === 0) {
       this.setTimeSong(0);
 
       return;
     }
 
-    this.props.decrementCurrentIndex();
+    decrementCurrentIndex();
+
+    if (!player.isPlaying) {
+      togglePlaying();
+    }
+  };
+
+  onClickPlayTrack = () => {
+    const audioRef = this.audioRef.current;
+    const { updateSongPlays, currentSong, setPlayingState } = this.props;
+
+    setPlayingState(true);
+    audioRef.autoplay = true;
+
+    if (audioRef.currentTime === 0) {
+      updateSongPlays(currentSong.id);
+    }
+
+    audioRef.play();
+  };
+
+  onClickPauseTrack = () => {
+    const audioRef = this.audioRef.current;
+    const { setPlayingState } = this.props;
+
+    setPlayingState(false);
+    audioRef.pause();
   };
 
   setTimeSong = seconds => (this.audioRef.current.currentTime = seconds);
 
   onEndCallNextSong = () => {
+    const audioRef = this.audioRef.current;
     const { togglePlaying } = this.props;
 
-    this.audioRef.current.addEventListener('ended', () => {
+    audioRef.addEventListener('ended', () => {
       togglePlaying();
       this.onClickNextSong();
     });
   };
 
   onClickToggleShuffle = () => {
-    this.props.toggleShuffleMode();
+    const { toggleShuffleMode } = this.props;
+
+    toggleShuffleMode();
   };
 
   render() {
@@ -148,8 +182,14 @@ class App extends React.Component {
       <Page>
         <UserPageWrapper>
           <Sidebar logout={this.onClickLogout} />
-          <MainContent />
-          <audio ref={this.audioRef} src={endpoint + currentSong.path} />
+          <MainContent
+            audioRef={this.audioRef}
+            onClickPlayTrack={this.onClickPlayTrack}
+            onClickPauseTrack={this.onClickPauseTrack}
+            onClickPlaySong={this.onClickPlaySong}
+            onClickPauseSong={this.onClickPauseSong}
+          />
+          <audio ref={this.audioRef} src={`${endpoint}${currentSong.path}`} />
           <Player
             audioRef={this.audioRef}
             currentSong={currentSong}
@@ -177,6 +217,7 @@ const mapDispatchToProps = dispatch => ({
   toggleRepeatMode: () => dispatch(toggleRepeatMode()),
   incrementCurrentIndex: () => dispatch(incrementCurrentIndex()),
   decrementCurrentIndex: () => dispatch(decrementCurrentIndex()),
+  setPlayingState: isPlaying => dispatch(setPlayingState(isPlaying)),
   updateSongPlays: songId => dispatch(updateSongPlays(songId)),
   toggleShuffleMode: () => dispatch(toggleShuffleMode()),
   shuffleIndexPlaylist: () => dispatch(shuffleIndexPlaylist())

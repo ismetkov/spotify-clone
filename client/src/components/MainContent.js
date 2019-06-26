@@ -6,6 +6,7 @@ import NotFound from './screens/NotFound';
 import YourMusic from './screens/YourMusic';
 import Browse from './screens/Browse';
 import Search from './screens/Search';
+import AlbumShow from './screens/AlbumShow';
 
 const MainContentWrapper = styled.div`
   z-index: 0;
@@ -16,7 +17,7 @@ const MainContentView = styled.div`
   padding-top: 20px;
   padding-left: 230px;
   padding-bottom: 90px;
-  width: calc(100% - 230px);
+  width: 100%;
   height: 100%;
   color: #fff;
 `;
@@ -26,7 +27,13 @@ const MainContentUser = styled.div`
   max-width: 1480px;
 `;
 
-function MainContent() {
+function MainContent({
+  audioRef,
+  onClickPlayTrack,
+  onClickPauseTrack,
+  onClickPlaySong,
+  onClickPauseSong
+}) {
   return (
     <MainContentWrapper>
       <MainContentView>
@@ -36,6 +43,20 @@ function MainContent() {
             <Route path="/browse" component={Browse} />
             <Route path="/your-music" component={YourMusic} />
             <Route path="/search" component={Search} />
+            <Route
+              path="/album/:id"
+              exact
+              render={props => (
+                <AlbumShow
+                  {...props}
+                  audioRef={audioRef}
+                  onClickPlayTrack={onClickPlayTrack}
+                  onClickPauseTrack={onClickPauseTrack}
+                  onClickPlaySong={onClickPlaySong}
+                  onClickPauseSong={onClickPauseSong}
+                />
+              )}
+            />
             <Route component={NotFound} />
           </Switch>
         </MainContentUser>

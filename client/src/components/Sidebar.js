@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const SidebarWrapper = styled.div`
-  color: white;
+  color: ${props => props.theme.white};
   z-index: 4;
   background-color: ${props => props.theme.black};
   overflow: auto;
@@ -14,6 +14,11 @@ const SidebarWrapper = styled.div`
   top: 0;
   left: 0;
   display: flex;
+
+  p,
+  a {
+    color: ${props => props.theme.white};
+  }
 `;
 const NavSite = styled.div`
   flex: 1;

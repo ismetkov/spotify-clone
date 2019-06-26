@@ -7,7 +7,13 @@ import {
   GET_PLAYLIST_ERROR,
   REQUEST_UPDATE_SONG_PLAYS,
   REQUEST_UPDATE_SONG_PLAYS_SUCCESS,
-  REQUEST_UPDATE_SONG_PLAYS_ERROR
+  REQUEST_UPDATE_SONG_PLAYS_ERROR,
+  REQUEST_ALBUMS,
+  GET_ALBUMS_SUCCESS,
+  GET_ALBUMS_ERROR,
+  REQUEST_ALBUM,
+  GET_ALBUM_SUCCESS,
+  GET_ALBUM_ERROR
 } from '../actions/types';
 
 function* getPlaylist() {
@@ -35,7 +41,35 @@ function* updateSongPlays(action) {
   }
 }
 
+function* requestAlbums() {
+  try {
+    const res = yield call(PlayerService.getAlbums);
+
+    yield put({ type: GET_ALBUMS_SUCCESS, payload: res.data });
+  } catch (err) {
+    yield put({
+      type: GET_ALBUMS_ERROR,
+      payload: 'getting albums fail'
+    });
+  }
+}
+
+function* requestAlbum(action) {
+  try {
+    const res = yield call(PlayerService.getAlbum, action.payload);
+
+    yield put({ type: GET_ALBUM_SUCCESS, payload: res.data });
+  } catch (err) {
+    yield put({
+      type: GET_ALBUM_ERROR,
+      payload: 'getting album fail'
+    });
+  }
+}
+
 export default function* saga() {
   yield takeLatest(REQUEST_PLAYLIST, getPlaylist);
   yield takeLatest(REQUEST_UPDATE_SONG_PLAYS, updateSongPlays);
+  yield takeLatest(REQUEST_ALBUMS, requestAlbums);
+  yield takeLatest(REQUEST_ALBUM, requestAlbum);
 }

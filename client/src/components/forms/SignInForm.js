@@ -1,19 +1,19 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { reduxForm, Field } from 'redux-form'
-import map from 'lodash/map'
-import each from 'lodash/each'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
+import map from 'lodash/map';
+import each from 'lodash/each';
 
-import { signin } from '../../actions'
+import { signin } from '../../actions';
 
-import { signInFields } from './fieldsData'
-import AuthFormField from './formFields/AuthFormField'
-import validateEmail from '../../helpers/validateEmail'
+import { signInFields } from './fieldsData';
+import AuthFormField from './formFields/AuthFormField';
+import validateEmail from '../../helpers/validateEmail';
 
-import Button from '../styles/Button'
+import Button from '../styles/Button';
 
 class SignInForm extends Component {
-  onFormSubmit = values => this.props.signin(values)
+  onFormSubmit = values => this.props.signin(values);
 
   renderFields = () =>
     map(signInFields, ({ name, type, placeholder }) => (
@@ -24,46 +24,46 @@ class SignInForm extends Component {
         component={AuthFormField}
         placeholder={placeholder}
       />
-    ))
+    ));
 
   render() {
-    const { auth } = this.props
+    const { auth } = this.props;
 
     return (
       <form onSubmit={this.props.handleSubmit(this.onFormSubmit)}>
         {this.renderFields()}
-        <Button color="white" bgColor="green" disabled={auth.loading}>
+        <Button bold color="white" bgColor="green" disabled={auth.loading}>
           Sign In
         </Button>
       </form>
-    )
+    );
   }
 }
 
-const mapStateToProps = ({ auth }) => ({ auth })
+const mapStateToProps = ({ auth }) => ({ auth });
 
 const mapDispatchToProps = dispatch => ({
-  signin: payload => dispatch(signin(payload)),
-})
+  signin: payload => dispatch(signin(payload))
+});
 
 SignInForm = connect(
   mapStateToProps,
   mapDispatchToProps
-)(SignInForm)
+)(SignInForm);
 
 function validate(values) {
-  const errors = {}
+  const errors = {};
 
-  errors.email = validateEmail(values.email)
+  errors.email = validateEmail(values.email);
 
   each(signInFields, ({ name }) => {
-    if (!values[name]) errors[name] = `You must provide ${name} field`
-  })
+    if (!values[name]) errors[name] = `You must provide ${name} field`;
+  });
 
-  return errors
+  return errors;
 }
 
 export default reduxForm({
   validate,
-  form: 'signinForm',
-})(SignInForm)
+  form: 'signinForm'
+})(SignInForm);

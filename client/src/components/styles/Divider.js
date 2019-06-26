@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Divider = styled.div`
   border-top: 1px solid ${props => props.theme.gray};
@@ -7,6 +7,7 @@ const Divider = styled.div`
   margin: 30px 0;
   position: relative;
   text-align: center;
+
   strong {
     background: ${props => props.theme.white};
     font-size: 12px;
@@ -14,6 +15,6 @@ const Divider = styled.div`
     padding: 0 20px;
     text-transform: uppercase;
   }
-`
+`;
 
-export default Divider
+export default Divider;
