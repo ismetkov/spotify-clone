@@ -6,10 +6,9 @@ import AccountDetail from '../../containers/AccountDetail';
 
 const AccountWrapper = styled.div`
   width: 100%;
-  background-color: black;
+  background-color: ${props => props.theme.black};
+  min-height: 100vh;
   padding: 60px 20px;
-  margin: 20px auto 0;
-  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.7);
 `;
 
 function Account() {

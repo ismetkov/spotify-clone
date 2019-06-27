@@ -12,7 +12,7 @@ const Button = styled.button`
   transition-duration: 0.3s;
   border-width: 0;
   letter-spacing: 2px;
-  min-width: ${props => (props.half ? '50%' : '100%')};
+  min-width: ${props => (props.half ? '25%' : '100%')};
   text-transform: uppercase;
   white-space: normal;
   cursor: pointer;
