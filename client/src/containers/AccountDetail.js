@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import { DEFAULT_AVATAR } from '../helpers/constants';
+
 import { logout } from '../actions';
 
 const AccountAvatarWrapper = styled.div`
