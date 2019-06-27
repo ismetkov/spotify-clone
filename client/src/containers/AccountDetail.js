@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
+import { DEFAULT_AVATAR } from '../helpers/constants';
 import { logout } from '../actions';
 
 const AccountAvatarWrapper = styled.div`
@@ -48,9 +49,6 @@ const Button = styled.button`
     border-color: ${props => props.theme.darkGray};
   }
 `;
-
-const DEFAULT_AVATAR =
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0pHByOL4FnyWZLZjh7_Z7RFSQLXYa9Nt71OhU9Dd0ufqGn9mJiQ';
 
 class AccountDetail extends Component {
   onClickLogout = () => {

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
+import { DEFAULT_AVATAR } from '../helpers/constants';
+
 const UserSessionWrapper = styled.div`
   display: flex;
   padding: 10px 0;
@@ -18,9 +20,6 @@ const UserAvatar = styled.img`
   background: ${props => props.theme.black};
   border-radius: 50%;
 `;
-
-const DEFAULT_AVATAR =
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0pHByOL4FnyWZLZjh7_Z7RFSQLXYa9Nt71OhU9Dd0ufqGn9mJiQ';
 
 class UserSession extends Component {
   render() {
