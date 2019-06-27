@@ -60,7 +60,7 @@ function NowPlaying({ currentSong }) {
           <SongName>{currentSong.title}</SongName>
         </EllipsisOneLine>
         <EllipsisOneLine>
-          <ArtistName>{currentSong.artist_name}</ArtistName>
+          <ArtistName>{currentSong.artist_name || currentSong.name}</ArtistName>
         </EllipsisOneLine>
       </TrackInfo>
     </NowPlayingWrapper>

@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import UserSession from '../containers/UserSession';
+
 const SidebarWrapper = styled.div`
   color: ${props => props.theme.white};
   z-index: 4;
@@ -29,18 +31,12 @@ const NavSite = styled.div`
   flex-direction: column;
   user-select: none;
   cursor: default;
-
-  .session {
-    padding-top: 8px;
-    padding-left: 4px;
-    margin: 0 24px;
-    margin-bottom: 10px;
-    border-top: 1px solid ${props => props.theme.lightBlack};
-  }
 `;
+
 const UserPages = styled.div`
   flex: 1;
   margin: 0 24px;
+
   ul {
     list-style: none;
     padding: 10px 0;
@@ -67,10 +63,9 @@ function Sidebar(props) {
             ))}
           </ul>
         </UserPages>
-        <div className="session">
-          <Link to="/account">ismetkov</Link>
-          <p onClick={props.logout}>logout</p>
-        </div>
+        <Link to="/account">
+          <UserSession />
+        </Link>
       </NavSite>
     </SidebarWrapper>
   );

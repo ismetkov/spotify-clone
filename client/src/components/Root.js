@@ -11,7 +11,6 @@ import Signup from './screens/Signup';
 import Forgot from './screens/Forgot';
 import ResetPassword from './screens/ResetPassword';
 import FbSuccess from './screens/FbSuccess';
-
 import NotFound from './screens/NotFound';
 
 import 'react-toastify/dist/ReactToastify.css';

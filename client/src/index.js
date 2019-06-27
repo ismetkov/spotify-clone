@@ -1,31 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, applyMiddleware, compose } from 'redux';
+import jwtDecode from 'jwt-decode';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 
 import rootSaga from './rootSaga';
-import reducers from './reducers';
+import { configureStore } from './store';
+import { setCurrentUser } from './actions';
 
 import Root from './components/Root';
 
 import './style.css';
 import 'material-design-icons/iconfont/material-icons.css';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const sagaMiddleware = createSagaMiddleware();
-
-const store = createStore(
-  reducers,
-  {
-    auth: {
-      authenticated: localStorage.getItem('token')
-    }
-  },
-  composeEnhancers(applyMiddleware(sagaMiddleware))
-);
+const store = configureStore(sagaMiddleware);
 
 sagaMiddleware.run(rootSaga);
+
+if (localStorage.token) {
+  try {
+    const userInfo = jwtDecode(localStorage.token);
+
+    store.dispatch(setCurrentUser(userInfo.sub));
+  } catch (error) {
+    store.dispatch(setCurrentUser({}));
+  }
+}
 
 ReactDOM.render(
   <Provider store={store}>

@@ -1,22 +1,26 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { reduxForm, Field } from 'redux-form'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
 
-import { requestResetPassword } from '../../actions'
+import { requestResetPassword } from '../../actions';
 
-import validateEmail from '../../helpers/validateEmail'
-import AuthFormField from './formFields/AuthFormField'
+import validateEmail from '../../helpers/validateEmail';
+import AuthFormField from './formFields/AuthFormField';
 
-import Button from '../styles/Button'
+import Button from '../styles/Button';
 
 class RequestResetForm extends Component {
-  onFormSubmit = values => this.props.requestResetPassword(values)
+  onFormSubmit = values => {
+    const { requestResetPassword } = this.props;
+
+    requestResetPassword(values);
+  };
 
   render() {
-    const { auth } = this.props
+    const { auth, handleSubmit } = this.props;
 
     return (
-      <form onSubmit={this.props.handleSubmit(this.onFormSubmit)}>
+      <form onSubmit={handleSubmit(this.onFormSubmit)}>
         <Field
           name="email"
           component={AuthFormField}
@@ -31,34 +35,34 @@ class RequestResetForm extends Component {
           Send Email
         </Button>
       </form>
-    )
+    );
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  requestResetPassword: payload => dispatch(requestResetPassword(payload)),
-})
+  requestResetPassword: payload => dispatch(requestResetPassword(payload))
+});
 
-const mapStateToProps = ({ auth }) => ({ auth })
+const mapStateToProps = ({ auth }) => ({ auth });
 
 RequestResetForm = connect(
   mapStateToProps,
   mapDispatchToProps
-)(RequestResetForm)
+)(RequestResetForm);
 
 function validate(values) {
-  const errors = {}
+  const errors = {};
 
-  errors.email = validateEmail(values.email)
+  errors.email = validateEmail(values.email);
 
   if (!values.email) {
-    errors.email = 'You must provide an email address'
+    errors.email = 'You must provide an email address';
   }
 
-  return errors
+  return errors;
 }
 
 export default reduxForm({
   validate,
-  form: 'resetRequestForm',
-})(RequestResetForm)
+  form: 'resetRequestForm'
+})(RequestResetForm);

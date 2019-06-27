@@ -7,6 +7,7 @@ import YourMusic from './screens/YourMusic';
 import Browse from './screens/Browse';
 import Search from './screens/Search';
 import AlbumShow from './screens/AlbumShow';
+import Account from './screens/Account';
 
 const MainContentWrapper = styled.div`
   z-index: 0;
@@ -57,6 +58,7 @@ function MainContent({
                 />
               )}
             />
+            <Route path="/account" component={Account} />
             <Route component={NotFound} />
           </Switch>
         </MainContentUser>
