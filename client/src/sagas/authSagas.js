@@ -74,6 +74,7 @@ function* resetPassword(action) {
     });
   }
 }
+
 export default function* saga() {
   yield takeLatest(REQUEST_SIGNUP, signup);
   yield takeLatest(REQUEST_SIGNIN, signin);

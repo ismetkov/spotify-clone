@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
 import { endpoint } from '../../helpers/config';
 
 const NowPlayingWrapper = styled.div`
@@ -34,11 +36,15 @@ const SongName = styled.a`
   font-weight: 500;
   color: ${props => props.theme.white};
 `;
-const ArtistName = styled.a`
+const ArtistName = styled.span`
   display: block;
   font-weight: 300;
   font-size: 14px;
   color: ${props => props.theme.lightWhite};
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 const EllipsisOneLine = styled.div`
   overflow: hidden;
@@ -60,7 +66,11 @@ function NowPlaying({ currentSong }) {
           <SongName>{currentSong.title}</SongName>
         </EllipsisOneLine>
         <EllipsisOneLine>
-          <ArtistName>{currentSong.artist_name || currentSong.name}</ArtistName>
+          <Link to={`/artist/${currentSong.artist_id}`}>
+            <ArtistName>
+              {currentSong.artist_name || currentSong.name}
+            </ArtistName>
+          </Link>
         </EllipsisOneLine>
       </TrackInfo>
     </NowPlayingWrapper>

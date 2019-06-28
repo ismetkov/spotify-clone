@@ -2,11 +2,12 @@ exports.up = function(knex, Promise) {
   return knex.raw(`
     CREATE TABLE artists (
       id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-      name VARCHAR(50) UNIQUE NOT NULL
+      name VARCHAR(50) UNIQUE NOT NULL,
+      artistCover TEXT
     );
-  `)
-}
+  `);
+};
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable('artists')
-}
+  return knex.schema.dropTable('artists');
+};

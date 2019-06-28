@@ -7,7 +7,9 @@ import {
   TOGGLE_SHUFFLE_MODE,
   SET_RANDOM_INDEX,
   SET_NEW_PLAYLIST,
-  SET_PLAYING_STATE
+  SET_PLAYING_STATE,
+  SET_ARTIST_SONGS_PLAYLIST,
+  GET_ARTIST_ALBUM_SUCCESS
 } from '../actions/types';
 
 const PREV_STATE = JSON.parse(localStorage.getItem('player'));
@@ -74,6 +76,30 @@ function playerReducer(state = INITIAL_STATE, action) {
         currentPlaylist: newPlaylist,
         currentIndex: songIndex,
         currentlyPlayingAlbumId: albumId
+      };
+
+    case SET_ARTIST_SONGS_PLAYLIST:
+      const { songs } = action.payload;
+
+      return {
+        ...state,
+        currentPlaylist: songs,
+        currentlyPlayingAlbumId: null,
+        currentIndex: action.payload.songIndex
+      };
+
+    case GET_ARTIST_ALBUM_SUCCESS:
+      const { album, id } = action.payload;
+
+      if (!album.length) {
+        return { ...state };
+      }
+
+      return {
+        ...state,
+        currentPlaylist: album,
+        currentIndex: 0,
+        currentlyPlayingAlbumId: id
       };
 
     default:

@@ -8,6 +8,7 @@ import Browse from './screens/Browse';
 import Search from './screens/Search';
 import AlbumShow from './screens/AlbumShow';
 import Account from './screens/Account';
+import Artist from './screens/Artist';
 
 const MainContentWrapper = styled.div`
   z-index: 0;
@@ -15,25 +16,25 @@ const MainContentWrapper = styled.div`
   word-wrap: break-word;
 `;
 const MainContentView = styled.div`
-  padding-top: 20px;
-  padding-left: 230px;
+  padding-left: 188px;
   padding-bottom: 90px;
   width: 100%;
   height: 100%;
   color: #fff;
 `;
 const MainContentUser = styled.div`
-  padding: 0 32px;
-  margin: 0 auto;
   max-width: 1480px;
 `;
 
 function MainContent({
+  isPlaying,
   audioRef,
   onClickPlayTrack,
   onClickPauseTrack,
   onClickPlaySong,
-  onClickPauseSong
+  onClickPauseSong,
+  onClickSetArtistAlbumSongs,
+  onClickPauseArtistAlbumSongs
 }) {
   return (
     <MainContentWrapper>
@@ -59,6 +60,19 @@ function MainContent({
               )}
             />
             <Route path="/account" component={Account} />
+            <Route
+              path="/artist/:id"
+              render={props => (
+                <Artist
+                  {...props}
+                  isPlaying={isPlaying}
+                  onClickPlayTrack={onClickPlayTrack}
+                  onClickPauseTrack={onClickPauseTrack}
+                  onClickSetArtistAlbumSongs={onClickSetArtistAlbumSongs}
+                  onClickPauseArtistAlbumSongs={onClickPauseArtistAlbumSongs}
+                />
+              )}
+            />
             <Route component={NotFound} />
           </Switch>
         </MainContentUser>

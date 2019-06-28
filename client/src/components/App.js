@@ -10,7 +10,8 @@ import {
   updateSongPlays,
   toggleShuffleMode,
   shuffleIndexPlaylist,
-  setPlayingState
+  setPlayingState,
+  fetchArtistAlbum
 } from '../actions';
 
 import { getCurrentSong } from '../selectors/playerSelector';
@@ -31,7 +32,10 @@ class App extends React.Component {
   }
 
   componentDidMount = () => {
-    this.setPlaylist();
+    if (!localStorage.getItem('player')) {
+      this.setPlaylist();
+    }
+
     this.onEndCallNextSong();
     this.setupBeforeUnloadListener();
   };
@@ -168,6 +172,17 @@ class App extends React.Component {
     toggleShuffleMode();
   };
 
+  onClickSetArtistAlbumSongs = albumId => {
+    const { fetchArtistAlbum } = this.props;
+
+    fetchArtistAlbum(albumId);
+    this.onClickPlaySong();
+  };
+
+  onClickPauseArtistAlbumSongs = () => {
+    this.onClickPauseSong();
+  };
+
   render() {
     const { currentSong, player, toggleRepeatMode } = this.props;
 
@@ -177,10 +192,13 @@ class App extends React.Component {
           <Sidebar />
           <MainContent
             audioRef={this.audioRef}
+            isPlaying={player.isPlaying}
             onClickPlayTrack={this.onClickPlayTrack}
             onClickPauseTrack={this.onClickPauseTrack}
             onClickPlaySong={this.onClickPlaySong}
             onClickPauseSong={this.onClickPauseSong}
+            onClickSetArtistAlbumSongs={this.onClickSetArtistAlbumSongs}
+            onClickPauseArtistAlbumSongs={this.onClickPauseArtistAlbumSongs}
           />
           <audio ref={this.audioRef} src={`${endpoint}${currentSong.path}`} />
           <Player
@@ -212,12 +230,14 @@ const mapDispatchToProps = dispatch => ({
   setPlayingState: isPlaying => dispatch(setPlayingState(isPlaying)),
   updateSongPlays: songId => dispatch(updateSongPlays(songId)),
   toggleShuffleMode: () => dispatch(toggleShuffleMode()),
-  shuffleIndexPlaylist: () => dispatch(shuffleIndexPlaylist())
+  shuffleIndexPlaylist: () => dispatch(shuffleIndexPlaylist()),
+  fetchArtistAlbum: albumId => dispatch(fetchArtistAlbum(albumId))
 });
 
 const mapStateToProps = state => ({
   player: state.player,
-  currentSong: getCurrentSong(state.player)
+  currentSong: getCurrentSong(state.player),
+  music: state.music
 });
 
 export default connect(

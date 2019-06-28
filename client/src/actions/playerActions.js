@@ -8,7 +8,9 @@ import {
   TOGGLE_SHUFFLE_MODE,
   SET_RANDOM_INDEX,
   SET_NEW_PLAYLIST,
-  SET_PLAYING_STATE
+  SET_PLAYING_STATE,
+  SET_ARTIST_SONGS_PLAYLIST,
+  SET_NEW_ALBUM_PLAYLIST
 } from './types';
 
 export const getPlaylist = () => ({
@@ -52,4 +54,14 @@ export const shuffleIndexPlaylist = () => ({
 export const setNewPlaylist = (newPlaylist, songIndex, albumId) => ({
   type: SET_NEW_PLAYLIST,
   payload: { newPlaylist, songIndex, albumId }
+});
+
+export const setNewAlbum = newPlaylist => ({
+  type: SET_NEW_ALBUM_PLAYLIST,
+  payload: newPlaylist
+});
+
+export const setArtistSongsPlaylist = (songs, songIndex) => ({
+  type: SET_ARTIST_SONGS_PLAYLIST,
+  payload: { songs, songIndex }
 });

@@ -13,7 +13,13 @@ import {
   GET_ALBUMS_ERROR,
   REQUEST_ALBUM,
   GET_ALBUM_SUCCESS,
-  GET_ALBUM_ERROR
+  GET_ALBUM_ERROR,
+  REQUEST_ARTIST,
+  GET_ARTIST_SUCCESS,
+  GET_ARTIST_ERROR,
+  REQUEST_ARTIST_ALBUM,
+  GET_ARTIST_ALBUM_SUCCESS,
+  GET_ARTIST_ALBUM_ERROR
 } from '../actions/types';
 
 function* getPlaylist() {
@@ -67,9 +73,40 @@ function* requestAlbum(action) {
   }
 }
 
+function* requestArtist(action) {
+  try {
+    const res = yield call(PlayerService.getArtist, action.payload);
+
+    yield put({ type: GET_ARTIST_SUCCESS, payload: res.data });
+  } catch (err) {
+    yield put({
+      type: GET_ARTIST_ERROR,
+      payload: 'getting artist fail'
+    });
+  }
+}
+
+function* requestArtistAlbum(action) {
+  try {
+    const res = yield call(PlayerService.getArtistAlbum, action.payload);
+
+    yield put({
+      type: GET_ARTIST_ALBUM_SUCCESS,
+      payload: { album: res.data, id: action.payload }
+    });
+  } catch (err) {
+    yield put({
+      type: GET_ARTIST_ALBUM_ERROR,
+      payload: 'getting artist album fail'
+    });
+  }
+}
+
 export default function* saga() {
   yield takeLatest(REQUEST_PLAYLIST, getPlaylist);
   yield takeLatest(REQUEST_UPDATE_SONG_PLAYS, updateSongPlays);
   yield takeLatest(REQUEST_ALBUMS, requestAlbums);
   yield takeLatest(REQUEST_ALBUM, requestAlbum);
+  yield takeLatest(REQUEST_ARTIST, requestArtist);
+  yield takeLatest(REQUEST_ARTIST_ALBUM, requestArtistAlbum);
 }

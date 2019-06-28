@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import { endpoint } from '../../helpers/config';
 
@@ -15,9 +16,15 @@ const AlbumTitle = styled.h2`
   margin: 0;
   margin-top: 5px;
 `;
+
 const ArtistName = styled.p`
   color: ${props => props.theme.lightWhite};
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
+
 const AlbumCount = styled.p`
   font-weight: 300;
   font-size: 12px;
@@ -98,7 +105,9 @@ export default ({
             </ArtistIconAction>
           </ArtistAvatarWrapper>
           <AlbumTitle>{albumInfo.title}</AlbumTitle>
-          <ArtistName>{albumInfo.artist && albumInfo.artist.name}</ArtistName>
+          <Link to={`/artist/${albumInfo.artist && albumInfo.artist.id}`}>
+            <ArtistName>{albumInfo.artist && albumInfo.artist.name}</ArtistName>
+          </Link>
           <Button
             half
             color="white"
