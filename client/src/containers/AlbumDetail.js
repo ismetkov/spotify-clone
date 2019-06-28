@@ -21,7 +21,7 @@ class AlbumDetail extends Component {
     fetchAlbum(albumId);
   };
 
-  onClickSetPlaylist = songIndex => {
+  onPlaylistSetNew = songIndex => {
     const { music, setNewPlaylist } = this.props;
     const albumId = music.album.id;
 
@@ -76,7 +76,7 @@ class AlbumDetail extends Component {
           audioRef={audioRef}
           isPlaying={player.isPlaying}
           currentIndex={player.currentPlaylist[player.currentIndex].id}
-          onClickSetPlaylist={this.onClickSetPlaylist}
+          onPlaylistSetNew={this.onPlaylistSetNew}
           albumSongs={music.album.songs}
           onClickPlayTrack={onClickPlayTrack}
           onClickPauseTrack={onClickPauseTrack}

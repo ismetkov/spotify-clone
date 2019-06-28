@@ -14,7 +14,7 @@ const TrackList = styled.ul`
 export default ({
   audioRef,
   albumSongs,
-  onClickSetPlaylist,
+  onPlaylistSetNew,
   isPlaying,
   currentIndex,
   onClickPlayTrack,
@@ -33,7 +33,7 @@ export default ({
                 key={track.id}
                 index={index}
                 track={track}
-                onClickSetPlaylist={onClickSetPlaylist}
+                onPlaylistSetNew={onPlaylistSetNew}
                 onClickPlayTrack={onClickPlayTrack}
                 onClickPauseTrack={onClickPauseTrack}
               />
