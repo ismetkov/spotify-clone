@@ -27,11 +27,14 @@ const MainContentUser = styled.div`
 `;
 
 function MainContent({
+  isPlaying,
   audioRef,
   onClickPlayTrack,
   onClickPauseTrack,
   onClickPlaySong,
-  onClickPauseSong
+  onClickPauseSong,
+  onClickSetArtistAlbumSongs,
+  onClickPauseArtistAlbumSongs
 }) {
   return (
     <MainContentWrapper>
@@ -57,7 +60,19 @@ function MainContent({
               )}
             />
             <Route path="/account" component={Account} />
-            <Route path="/artist/:id" component={Artist} />
+            <Route
+              path="/artist/:id"
+              render={props => (
+                <Artist
+                  {...props}
+                  isPlaying={isPlaying}
+                  onClickPlayTrack={onClickPlayTrack}
+                  onClickPauseTrack={onClickPauseTrack}
+                  onClickSetArtistAlbumSongs={onClickSetArtistAlbumSongs}
+                  onClickPauseArtistAlbumSongs={onClickPauseArtistAlbumSongs}
+                />
+              )}
+            />
             <Route component={NotFound} />
           </Switch>
         </MainContentUser>

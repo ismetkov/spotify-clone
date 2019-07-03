@@ -35,6 +35,8 @@ export const REQUEST_UPDATE_SONG_PLAYS_ERROR =
 export const TOGGLE_SHUFFLE_MODE = 'toggle_shuffle_mode';
 export const SHUFFLE_MODE = 'shuffle_mode';
 export const SET_RANDOM_INDEX = 'set_random_index';
+export const SET_ARTIST_SONGS_PLAYLIST = 'set_artist_songs_playlist';
+export const SET_NEW_ALBUM_PLAYLIST = 'set_new_album_playlist';
 
 // album
 export const REQUEST_ALBUMS = 'request_albums';
@@ -44,3 +46,11 @@ export const REQUEST_ALBUM = 'request_album';
 export const GET_ALBUM_SUCCESS = 'get_album_success';
 export const GET_ALBUM_ERROR = 'get_album_error';
 export const SET_NEW_PLAYLIST = 'set_new_playlist';
+
+// artist
+export const REQUEST_ARTIST = 'request_artist';
+export const GET_ARTIST_SUCCESS = 'get_artist_success';
+export const GET_ARTIST_ERROR = 'get_artist_error';
+export const REQUEST_ARTIST_ALBUM = 'request_artist_album';
+export const GET_ARTIST_ALBUM_SUCCESS = 'get_artist_album_success';
+export const GET_ARTIST_ALBUM_ERROR = 'get_artist_album_error';

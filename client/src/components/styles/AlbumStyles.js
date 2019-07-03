@@ -30,8 +30,8 @@ export const ArtistIconAction = styled.i`
   cursor: pointer;
   opacity: ${props => (props.isPlaying ? 1 : 0)};
   position: absolute;
-  top: calc(50% - 50px);
-  left: calc(50% - 35.5px);
+  top: calc(50% - 68.5px);
+  left: calc(50% - 39px);
   border: 1px solid ${props => props.theme.white};
   padding: 10px;
   user-select: none;
@@ -42,8 +42,7 @@ export const ArtistAvatar = styled.div`
   padding-top: 100%;
   position: relative;
   opacity: ${props => (props.isPlaying ? 0.4 : 1)};
-  background: url('https://www.billboard.com/files/styles/1296x857_gallery/public/media/Kygo-press-photo-03-by-Johannes-Lovund-2017-billboard-1548.jpg')
-    no-repeat;
+  background: url(${props => props.src}) no-repeat;
   background-size: cover;
 
   &:hover {

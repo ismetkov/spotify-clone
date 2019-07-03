@@ -8,11 +8,18 @@ const ArtistWrapper = styled.section`
   position: relative;
 `;
 
-function Artist() {
+function Artist(props) {
   return (
     <Page>
       <ArtistWrapper>
-        <ArtistDetail />
+        <ArtistDetail
+          isPlaying={props.isPlaying}
+          artistId={props.match.params.id}
+          onClickPlayTrack={props.onClickPlayTrack}
+          onClickPauseTrack={props.onClickPauseTrack}
+          onClickSetArtistAlbumSongs={props.onClickSetArtistAlbumSongs}
+          onClickPauseArtistAlbumSongs={props.onClickPauseArtistAlbumSongs}
+        />
       </ArtistWrapper>
     </Page>
   );

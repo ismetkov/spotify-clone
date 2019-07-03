@@ -1,11 +1,11 @@
-import db from '../db'
+import db from '../db';
 
 class Player {
   pickSongs(limitSongs) {
     return db
       .select('*')
       .from('songs')
-      .limit(limitSongs)
+      .limit(limitSongs);
   }
 
   getSongById(songId) {
@@ -13,7 +13,7 @@ class Player {
       .select('*')
       .from('songs')
       .where('id', songId)
-      .first()
+      .first();
   }
 
   getSong(songId) {
@@ -35,20 +35,20 @@ class Player {
         'songs.genre_id'
       )
       .where('songs.id', songId)
-      .first()
+      .first();
   }
 
   incrementSongPlays(songId) {
     return db('songs')
       .where('id', songId)
-      .increment({ plays: 1 })
+      .increment({ plays: 1 });
   }
 
   getAlbums(limitAlbums) {
     return db
       .select('*')
       .from('albums')
-      .limit(limitAlbums)
+      .limit(limitAlbums);
   }
 
   getAlbumById(id) {
@@ -56,23 +56,31 @@ class Player {
       .select('*')
       .from('albums')
       .where('id', id)
-      .first()
+      .first();
   }
 
-  getArtistById(artist_id) {
+  getArtistById(artistId) {
     return db
       .select('*')
       .from('artists')
-      .where('id', artist_id)
-      .first()
+      .where('id', artistId)
+      .first();
   }
 
   getSongsByAlbum(id) {
-    return db
-      .select('*')
-      .from('artists')
-      .innerJoin('songs', 'songs.artist_id', '=', 'artists.id')
-      .where('album_id', id)
+    return db('albums')
+      .join('songs', 'songs.album_id', '=', 'albums.id')
+      .join('artists', 'artists.id', '=', 'albums.artist_id')
+      .where('albums.id', id)
+      .select(
+        'songs.id',
+        'songs.title',
+        'songs.plays',
+        'songs.path',
+        'artists.name',
+        'albums.artwork_path',
+        'artists.id as artist_id'
+      );
   }
 
   getSongsForPlaylist() {
@@ -92,8 +100,15 @@ class Player {
         'songs.artist_id',
         'songs.album_id',
         'songs.genre_id'
-      )
+      );
+  }
+
+  getArtist(artistId) {
+    return db('artists')
+      .join('songs', 'songs.artist_id', '=', 'artists.id')
+      .select('*')
+      .where('artists.id', artistId);
   }
 }
 
-export default new Player()
+export default new Player();

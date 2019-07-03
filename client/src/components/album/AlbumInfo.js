@@ -105,7 +105,7 @@ export default ({
             </ArtistIconAction>
           </ArtistAvatarWrapper>
           <AlbumTitle>{albumInfo.title}</AlbumTitle>
-          <Link to={`/artist/2`}>
+          <Link to={`/artist/${albumInfo.artist && albumInfo.artist.id}`}>
             <ArtistName>{albumInfo.artist && albumInfo.artist.name}</ArtistName>
           </Link>
           <Button

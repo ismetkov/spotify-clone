@@ -17,6 +17,14 @@ class PlayerService {
   getAlbum(albumId) {
     return http.get(`${endpoint}/api/albums/${albumId}`);
   }
+
+  getArtist(artistId) {
+    return http.get(`${endpoint}/api/artists/${artistId}`);
+  }
+
+  getArtistAlbum(albumId) {
+    return http.get(`${endpoint}/api/artists/albums/${albumId}`);
+  }
 }
 
 export default new PlayerService();

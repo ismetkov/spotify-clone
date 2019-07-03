@@ -66,7 +66,7 @@ function NowPlaying({ currentSong }) {
           <SongName>{currentSong.title}</SongName>
         </EllipsisOneLine>
         <EllipsisOneLine>
-          <Link to={`/artist/2`}>
+          <Link to={`/artist/${currentSong.artist_id}`}>
             <ArtistName>
               {currentSong.artist_name || currentSong.name}
             </ArtistName>

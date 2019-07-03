@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
+import { fetchArtist, setArtistSongsPlaylist } from '../actions';
 import ArtistTracks from '../components/artist/ArtistTracks';
 import ArtistAlbums from '../components/artist/ArtistAlbums';
 
@@ -15,7 +17,7 @@ const ArtistHeader = styled.header`
   position: relative;
   padding-top: 120px;
   align-items: center;
-  background-image: url('https://www.billboard.com/files/styles/1296x857_gallery/public/media/Kygo-press-photo-03-by-Johannes-Lovund-2017-billboard-1548.jpg');
+  background: url(${props => props.src}) no-repeat;
   background-size: cover;
   background-position: center;
 
@@ -51,25 +53,78 @@ const ArtistContent = styled.div`
 `;
 
 class ArtistDetail extends Component {
-  render() {
+  componentDidMount = () => {
+    const { fetchArtist, artistId } = this.props;
+
+    fetchArtist(artistId);
+  };
+
+  onClickSetPlaylist = songIndex => {
+    const { setArtistSongsPlaylist, music } = this.props;
+    const artistSongs = music.artistInfo.songs;
+
+    setArtistSongsPlaylist(artistSongs, songIndex);
+  };
+
+  render = () => {
+    const {
+      music: { artistInfo },
+      player,
+      onClickPlayTrack,
+      onClickPauseTrack,
+      isPlaying,
+      onClickSetArtistAlbumSongs,
+      onClickPauseArtistAlbumSongs
+    } = this.props;
+
+    if (!artistInfo.songs) {
+      return null;
+    }
+
     return (
       <>
-        <ArtistHeader>
-          <ArtistListenersCount>273,591 MONTHLY LISTENERS</ArtistListenersCount>
-          <ArtistName>Kyog, Lot</ArtistName>
+        <ArtistHeader src={artistInfo.artist.artistCover}>
+          <ArtistListenersCount>
+            {artistInfo.artist_plays || 0} PLAYS
+          </ArtistListenersCount>
+          <ArtistName>{artistInfo.artist.name}</ArtistName>
           <Button half color="white" bgColor="green" borderColor="green">
             PLAY
           </Button>
         </ArtistHeader>
         <ArtistContent>
           <SectionTitle>Popular</SectionTitle>
-          <ArtistTracks />
+          <ArtistTracks
+            songs={artistInfo.songs}
+            onClickSetPlaylist={this.onClickSetPlaylist}
+            onClickPlayTrack={onClickPlayTrack}
+            onClickPauseTrack={onClickPauseTrack}
+            currentIndex={player.currentPlaylist[player.currentIndex].id}
+            isPlaying={isPlaying}
+          />
           <SectionTitle>Albums</SectionTitle>
-          <ArtistAlbums />
+          <ArtistAlbums
+            isPlaying={player.isPlaying}
+            currentlyPlayingAlbumId={player.currentlyPlayingAlbumId}
+            albums={artistInfo.albums}
+            onClickSetArtistAlbumSongs={onClickSetArtistAlbumSongs}
+            onClickPauseArtistAlbumSongs={onClickPauseArtistAlbumSongs}
+          />
         </ArtistContent>
       </>
     );
-  }
+  };
 }
 
-export default ArtistDetail;
+const mapStateToProps = ({ player, music }) => ({ player, music });
+
+const mapDispatchToProps = dispatch => ({
+  fetchArtist: artistId => dispatch(fetchArtist(artistId)),
+  setArtistSongsPlaylist: (songs, songIndex) =>
+    dispatch(setArtistSongsPlaylist(songs, songIndex))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ArtistDetail);
